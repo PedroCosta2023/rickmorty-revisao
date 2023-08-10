@@ -1,0 +1,19 @@
+#container,
+#fav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card,
+.card-fav {
+  color: white;
+  background-color: blue;
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+}
+
+.card-fav {
+  background-color: red;
+}
