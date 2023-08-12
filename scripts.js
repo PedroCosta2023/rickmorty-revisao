@@ -1,5 +1,4 @@
 const container = document.getElementById("container");
-const favorito = document.getElementById("fav");
 
 const rickNmorty = [
   {
@@ -640,35 +639,50 @@ const rickNmorty = [
   },
 ];
 
-for (let index = 0; index < rickNmorty.length; index++) {
-  const { image, name, status, gender, species, origin } = rickNmorty[index];
+montarCard(rickNmorty);
+let favoritos = [];
 
-  const myDiv = document.createElement("div");
-  myDiv.classList.add("card");
-  myDiv.innerHTML = `
-      <img src="${image}" alt="">
-      <h5>${name}</h5>
-      <h5>${gender}</h5>
-      <h5>${origin.name}</h5>
-      <h5>${species}</h5>
-      <h5>${status}</h5>
-      <button id="save">Favoritar</button>
-      `;
+function montarCard(grupo) {
+  for (let index = 0; index < rickNmorty.length; index++) {
+    const { image, name, status, gender, species, origin, id } =
+      rickNmorty[index];
 
-  container.appendChild(myDiv);
-  myDiv.querySelector("#save").addEventListener("click", () => {
-    const minhaDiv = document.createElement("div");
-    minhaDiv.classList.add("card-fav");
-    minhaDiv.innerHTML = `
-      <img src="${image}" alt="">
-      <h5>${name}</h5>
-      <h5>${gender}</h5>
-      <h5>${origin.name}</h5>
-      <h5>${species}</h5>
-      <h5>${status}</h5>
-      <button id="save">Favoritar</button>
-      `;
+    let myDiv = document.createElement("div");
+    myDiv.classList.add("card");
+    myDiv.innerHTML = `
+        <img src="${image}" alt="">
+        <h5>${name}</h5>
+        <h5>${gender}</h5>
+        <h5>${origin.name}</h5>
+        <h5>${species}</h5>
+        <h5>${status}</h5>
+        <button id="${id}">Favoritar</button>
+        `;
 
-    favorito.appendChild(minhaDiv);
+    container.appendChild(myDiv);
+  }
+}
+
+const btnFav = document.querySelectorAll("button");
+
+for (let index = 0; index < btnFav.length; index++) {
+  btnFav[index].addEventListener("click", () => {
+    const myFav = rickNmorty.find(element => element.id == btnFav[index].id);
+    favoritos.push(myFav);
+  });
+
+  document.getElementById("fav").addEventListener("click", () => {
+    if (favoritos.length === 0) {
+      alert("Não tem favoritos");
+      return;
+    }
+
+    container.innerHTML = "";
+    montarCard(favoritos);
+  });
+
+  document.getElementById("todos").addEventListener("click", () => {
+    container.innerHTML = "";
+    montarCard(rickNmorty);
   });
 }
